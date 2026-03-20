@@ -30,8 +30,9 @@ BRp.getCachedImage = function( url, crossOrigin, onLoad ){
     }
 
     // #3421 encode URLs to handle spaces and special characters
-    // encodeURI preserves URL structure while encoding spaces and other characters
-    var encodedUrl = isDataUri ? url : encodeURI(url);
+    // decodeURI first to avoid double-encoding already-encoded URLs,
+    // then encodeURI to safely encode any unencoded characters (e.g. spaces)
+    var encodedUrl = isDataUri ? url : encodeURI( decodeURI( url ) );
     image.src = encodedUrl;
 
     return image;
